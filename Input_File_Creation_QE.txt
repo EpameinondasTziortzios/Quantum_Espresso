@@ -1,0 +1,55 @@
+#### Guide on creating input files for Quantum Espresso ####
+### The mandatory name lists are &CONTROL, &SYSTEM and &ELECTRONS ###
+## The mandatory input cards are ATOMIC_SPECIES, ATOMIC_POSITIONS and K_POINTS ##
+# This is not comprehensive, further info https://www.quantum-espresso.org/Doc/INPUT_PW.html#id4 #
+-----------------------------------------------------------------------------------------
+# &CONTROL contains #
+calculation = ''  ## This defines the type of calculation that is to be performed choices include 'scf', 'nscf', 'bands', 'relax', 'md', 'vc-relax', 'vc-md'.
+title = '' ## This is the name of the calculation.
+pseudo_dir = '' ## Defines the path to the pseudopotential directory.
+out_dir = '' ## Defines the path to the directory the output will be sent to.
+prefix = '' ## Defines the prefix of the output files. 
+verbosity = '' # Defines the detail of the output options: 'low' and 'high'.
+restart_mode = '' ## Defines how the calculation will start options: 'from_scratch' and 'restart'. 'restart' is used when we want to start an previously stopped calculation and works only if the calculation was cleanly stopped with an "exit file".
+nstep =  # number of molecular dynamics optimization steps perfomed during the run 
+etot_conv_thr =  ## Convergence threshold on total energy (a.u) for ionic minimization. Default: 1.0D-4.
+forc_conv_thr =  # Convergence threshold on forces (a.u) for ionic minimization. Default: 1.0D-3.
+
+/  ## End of namelist.
+
+# &SYSTEM contains # 
+ibrav =  ## Bravais lattice index options: 0 (free, req. CELL_PARAMETERS), 1 (simple cubic), 2 (FCC), 3 (BCC), -3 (BCC, more symmetric), 4 (Hexagonal and Trigonal P), 5 (Trigonal R, 3fold axis c), -5 (Trigonal R, 3fold axis <111>), 6 (Tetragonal P), 7 (Tetragonal I), 8 (Orthorhombic), 9 (Orthorhombic bace-centered)(, -9 (as 9, alternate description), 91 (Orthorhombic one face base centered A-type), 10 (Orthorhombic face-centered), 11 (Orthorhombic body-centered), 12 (Monoclinic P, unique axis c), -12 (Monoclinic P, unique axis b), 13 (Monoclinic bace-centered), -13 (Monoclinic base-centered) and 14 (Triclinic).
+---------------------------------------
+# Either:
+celldm(i) 
+# Or: 
+a = , b = , c =  # Lattice parameters in Angstrom
+cosAB = , cosAC = , cosBC =  # Cosines of the angles AB, AC, BC respectivelly. 
+---------------------------------------
+nat =  ## Number of atoms in the unit cell. 
+ntyp =  ## Number of atom types in the unit cell.
+nbnd =  # Number of bands to be calculated. For spin-polarized calculations the number of k-point, not the number of bands per k-point, is doubled.
+tot_charge =  # The total charge of the system. Default: 0.0.
+starting_charge(i) =  # Starting charge of the atomic type 'i'.
+tot_magnetization =  # Total majority spin charge-minority spin charge. Default: -10000.
+starting_magnetization =  # Starting spin polarization on atomic type 'i'.
+ecutwfc =  ## Kinetic energy cutoff (Ry) for wavefunctions.
+ecutrho =  # Kinetic energy cutoff (Ry) for charge density and potential.
+occupations = '' ## Options: 'smearing' (gaussian smearing for metals), 'tetrahedra' (Tetrahedron method Bloechl's version), 'tetrahedra_lin' (Tetrahedron method linear), 'tetrahedron_opt) (Tetrahedron method optimized), 'fixed' (for insulators with a gap), 'from_input' (The occupations are read from the input file, card OCCUPATIONS). 
+smearing = '' # Options: 'gaussian' (Default), 'methfessel-paxton', 'marzari-vanderbilt', 'fermi-dirac'.
+nspin =  # Character of calculation, options: 1 (non-spin polarized), 2 (spin-polarized, magnetization along z axis), 4 (spin polarized noncollinear).
+lspinorb =  # If .TRUE. noncollinear code can use an pseudopotential with spin-orbit. 
+assume_isolated =  # Used to perform calculations assuming the system to be isolated. Options: 'none' (Default), 'makov-payne' (Makov-Payne correction to the total energy is computed), 'martyna-tuckerman' (Martyna-Tuckerman correction to both total energy and scf potential), 'esm' (effective screening medium method, for polarized or charged slab calculations) and '2D' (Truncation of the Coulomb interaction in the z direction for sttructures periodic in the x-y plane).
+vdw_corr = '' ## Type of van der Waals corretion. Options: 'grimme-d2' (semiempirical DFT-D2), 'grimme-d3' (Semiempirical DFT-D3), 'TS' (Tkatchenko-Scheffler dispersion corrections with C6 coefficients), 'MBD' (Many body dispersion (MBD) correction to long range interactions), 'XDM' (Exchange-hole dipole-moment model).
+dftd3_version =  # Version of DFT-D3. Options: 2 (DFT-D2), 3 (DFT-D3), 4 (BJ damping), 5 (DFT-D3M zero damping), 6 (DFT-D3M, BJ damping). 
+
+/ ## End of namelist.
+
+# &ELECTRONS contains #
+electron_maxstep =  # Maximum number of iterations in a scf step.
+exx_maxstep =  # Maximum number of outer iterations in a scf calculations with exact exchange. 
+conv_thr =  # Convergence threshold for selfconsistency. Default: 1.0D-6. 
+mixing_mode = '' # Options: 'plain' (charge density Broyden mixing 'plain'), 'TF' (as 'plain' with simple Thomas-Fermi screening) and 'local-TF' (as 'plain' with local-density-dependent TF screening). 
+mixing_beta =  # Mixing factor for self-consistency. Default: 0.7D0.
+mixing_ndim =  # Number of iterations used in mixing scheme. Default: 8.
+diagonalization = '' # Options: 'david' (Davidson iterative diagonalization with overlap matrix), 'cg' (Conjugate-gradiant-like band-by-band diagonalization), 'paro' (ParO iterative diagonalization), 'rmm-davidson' (RMM-DIIS iterative diagonalization).
