@@ -2,7 +2,7 @@
 ### The mandatory name lists are &CONTROL, &SYSTEM and &ELECTRONS ###
 ## The mandatory input cards are ATOMIC_SPECIES, ATOMIC_POSITIONS and K_POINTS ##
 # This is not comprehensive, further info https://www.quantum-espresso.org/Doc/INPUT_PW.html#id4 #
------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------
 # &CONTROL contains #
 calculation = ''  ## This defines the type of calculation that is to be performed choices include 'scf', 'nscf', 'bands', 'relax', 'md', 'vc-relax', 'vc-md'.
 title = '' ## This is the name of the calculation.
@@ -16,7 +16,7 @@ etot_conv_thr =  ## Convergence threshold on total energy (a.u) for ionic minimi
 forc_conv_thr =  # Convergence threshold on forces (a.u) for ionic minimization. Default: 1.0D-3.
 
 /  ## End of namelist.
-
+------------------------------------------------------------------------------
 # &SYSTEM contains # 
 ibrav =  ## Bravais lattice index options: 0 (free, req. CELL_PARAMETERS), 1 (simple cubic), 2 (FCC), 3 (BCC), -3 (BCC, more symmetric), 4 (Hexagonal and Trigonal P), 5 (Trigonal R, 3fold axis c), -5 (Trigonal R, 3fold axis <111>), 6 (Tetragonal P), 7 (Tetragonal I), 8 (Orthorhombic), 9 (Orthorhombic bace-centered)(, -9 (as 9, alternate description), 91 (Orthorhombic one face base centered A-type), 10 (Orthorhombic face-centered), 11 (Orthorhombic body-centered), 12 (Monoclinic P, unique axis c), -12 (Monoclinic P, unique axis b), 13 (Monoclinic bace-centered), -13 (Monoclinic base-centered) and 14 (Triclinic).
 ---------------------------------------
@@ -44,7 +44,7 @@ vdw_corr = '' ## Type of van der Waals corretion. Options: 'grimme-d2' (semiempi
 dftd3_version =  # Version of DFT-D3. Options: 2 (DFT-D2), 3 (DFT-D3), 4 (BJ damping), 5 (DFT-D3M zero damping), 6 (DFT-D3M, BJ damping). 
 
 / ## End of namelist.
-
+------------------------------------------------------------------------------
 # &ELECTRONS contains #
 electron_maxstep =  # Maximum number of iterations in a scf step.
 exx_maxstep =  # Maximum number of outer iterations in a scf calculations with exact exchange. 
@@ -53,3 +53,85 @@ mixing_mode = '' # Options: 'plain' (charge density Broyden mixing 'plain'), 'TF
 mixing_beta =  # Mixing factor for self-consistency. Default: 0.7D0.
 mixing_ndim =  # Number of iterations used in mixing scheme. Default: 8.
 diagonalization = '' # Options: 'david' (Davidson iterative diagonalization with overlap matrix), 'cg' (Conjugate-gradiant-like band-by-band diagonalization), 'paro' (ParO iterative diagonalization), 'rmm-davidson' (RMM-DIIS iterative diagonalization).
+
+/ ## End of namelist.
+------------------------------------------------------------------------------
+# &IONS contains # for relaxions and md.
+
+/ ## End of namelist.
+------------------------------------------------------------------------------
+# &CELL contains # for relaxations and md. 
+
+/ ## End of namelist.
+------------------------------------------------------------------------------
+# ATOMIC_SPECIES contains #
+X(1) Mass_X(1) PseudoPot_X(1)
+X(2) Mass_X(2) PseudoPot_X(2)
+X(3) Mass_X(3) PseudoPot_X(3)
+...
+X(n) Mass_X(n) PseudoPot_X(n)
+
+## End of Card.
+------------------------------------------------------------------------------
+# ATOMIC_POSITIONS (alat|bohr|angstrom|crystal|crystal_sg) contains #
+X(1) x(1) y(1) z(1)
+X(2) x(2) y(2) z(2)
+X(3) x(3) y(3) z(3)
+...
+X(n) x(n) y(n) z(n)
+
+## End of Card
+------------------------------------------------------------------------------
+# K_POINTS (tpida|automatic|crystal|gamma|tpiba_b|crystal_b|tpiba_c|crystal_c) contains #
+# General syntax: 
+nks
+  xk_x(1)  xk_y(1)  xk_z(1)  wk(1)
+  xk_x(2)  xk_y(2)  xk_z(2)  wk(2)
+  ...
+  xk_x(n)  xk_y(n)  xk_z(n)  wk(n)
+# "automatic" syntax: 
+nk1 nk2 nk3 sk1 sk2 sk3
+# "gamma" syntax requires nothing. 
+
+## End of Card.
+------------------------------------------------------------------------------
+# ADDITIONAL_K_POINTS (tpida|automatic|crystal|gamma|tpiba_b|crystal_b|tpiba_c|crystal_c) contains # 
+
+## End of Card.
+------------------------------------------------------------------------------
+# CELL_PARAMETERS (alat|bohr|angstrom) contains #
+v1(1)  v1(2)  v1(3)
+v2(1)  v2(2)  v2(3)
+v3(1)  v3(2)  v3(3)
+
+## End of Card.
+------------------------------------------------------------------------------
+# CONSTRAINTS contains #
+nconstr
+  constr_type(1)  constr(1)(1)  constr(2)(1) ... constr(4)(1) constr_target(1)
+  constr_type(2)  constr(1)(2)  constr(2)(2) ... constr(4)(2) constr_target(2)
+  ...
+  constr_type(nconstr)  constr(1)(nconstr)  constr(2)(nconstr) ... constr(4)(nconstr) constr_target(nconstr)
+## End of Card.
+------------------------------------------------------------------------------
+# OCCUPATIONS contains # 
+f_inp1(1) f_inp1(2) ... f_inp1(nbnd)
+f_inp2(1) f_inp2(2) ... f_inp2(nbnd)
+## End of Card.
+------------------------------------------------------------------------------
+# ATOMIC_VELOCITIES {a.u} contains #
+
+## End of Card. 
+------------------------------------------------------------------------------
+# ATOMIC_FORCES contains #
+
+## End of Card.
+------------------------------------------------------------------------------
+# SOLVENTS {1/cell|mol/L|g/cm^3} contains #
+
+## End of Card. 
+------------------------------------------------------------------------------
+# HUBBARD (atomic|ortho-atomic|norm-atomic|wf|pseudo)
+
+## End of Card.
+------------------------------------------------------------------------------
